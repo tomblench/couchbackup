@@ -3,12 +3,15 @@ stage('Build') {
     node {
         checkout scm
         sh 'npm install'
+        stash name: 'built'
     }
 }
 
 stage('QA') {
     node {
-
+        // Unstash the built content
+        unstash name: 'built'
+        // run tests using creds
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'clientlibs-test', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASSWORD']]) {
             // run unit tests
             sh 'npm test'
