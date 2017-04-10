@@ -15,7 +15,8 @@ stage('QA') {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'clientlibs-test', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASSWORD']]) {
             try {
                 // install mocha-junit-reporter so that we can get junit style output
-                sh 'npm install mocha-junit-reporter --save-dev'
+                sh 'npm install -g mocha'
+                sh 'npm install -g mocha-junit-reporter'
                 // run unit tests
                 sh 'mocha test --reporter mocha-junit-reporter'
                 // TODO - check output - backup animaldb
